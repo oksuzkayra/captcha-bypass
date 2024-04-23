@@ -1,4 +1,4 @@
-from core import methods_json, methods_urlencoded
+from core import bypass
 import argparse
 
 if __name__ == '__main__':
@@ -9,21 +9,18 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     url = args.url
-    req = args.request
 
-    if "Content-Type: application/json" in req:
-        print(methods_json.bypass_method_1_json(url, req))
-        print(methods_json.bypass_method_2_json(url, req))
-        print(methods_json.bypass_method_3_json(url, req))
-        print(methods_json.bypass_method_4_json_get(url, req))
-        print(methods_json.bypass_method_4_json_put(url, req))
+    if args.request:
+        # Dosyayı aç ve içeriğini oku
+        try:
+            with open(args.request, 'r') as dosya:
+                req = dosya.read()
+        except FileNotFoundError:
+            print("Error: HTTP Request file not found!")
+    else:
+        print("Error: -r argument not found!")
 
-    elif "Content-Type: application/x-www-form-urlencoded" in req:
-        print(methods_urlencoded.bypass_method_1_urlencoded(url, req))
-        print(methods_urlencoded.bypass_method_2_urlencoded(url, req))
-        print(methods_urlencoded.bypass_method_3_urlencoded(url, req))
-        print(methods_urlencoded.bypass_method_4_urlencoded_get(url, req))
-        print(methods_urlencoded.bypass_method_4_urlencoded_put(url, req))
+    bypass.try_bypass(url,req)
 
 
 
