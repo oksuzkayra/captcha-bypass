@@ -2,21 +2,22 @@ import requests as r
 from utils.parser import parse_req_headers, params_to_json
 from core.findtoken import find_token_json
 
-def bypass_method_1_json(url: str, req: str):
+def bypass_method_1_json(url: str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde captcha parametresini göndermeyerek bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_json(req)
     form_data = params_to_json(req)
     response = r.post(url, form_data, headers)
+    if token == None:
+        token = find_token_json(req)
 
     try:
         for key, value in form_data.items():
-            if key == captcha_token:
+            if key == token:
                 del form_data[key]
                 break
             if isinstance(value, dict):
                 for nested_key in value.keys():
-                    if nested_key == captcha_token:
+                    if nested_key == token:
                         del form_data[key][nested_key]
                         break
 
@@ -36,21 +37,22 @@ def bypass_method_1_json(url: str, req: str):
         print("OOps: Something Else", e)
     except Exception as e:
         print("Error! ", e)
-def bypass_method_2_json(url:str, req: str):
+def bypass_method_2_json(url:str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde captcha parametresini boş göndererek bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_json(req)
+    if token == None:
+        token = find_token_json(req)
     form_data = params_to_json(req)
     response = r.post(url, form_data, headers)
 
     try:
         for key, value in form_data.items():
-            if key == captcha_token:
+            if key == token:
                 form_data[key] = ""
                 break
             if isinstance(value, dict):
                 for nested_key in value.keys():
-                    if nested_key == captcha_token:
+                    if nested_key == token:
                         form_data[key][nested_key] = ""
                         break
 
@@ -70,10 +72,11 @@ def bypass_method_2_json(url:str, req: str):
         print("OOps: Something Else", e)
     except Exception as e:
         print("Error! ", e)
-def bypass_method_3_json(url: str, req: str):
+def bypass_method_3_json(url: str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde Headerlar kullanılarak bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_json(req)
+    if token == None:
+        token = find_token_json(req)
     form_data = params_to_json(req)
     response = r.post(url, form_data, headers)
 
@@ -102,10 +105,11 @@ def bypass_method_3_json(url: str, req: str):
         print("OOps: Something Else", e)
     except Exception as e:
         print("Error! ", e)
-def bypass_method_4_json_get(url:str, req: str):
+def bypass_method_4_json_get(url:str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde POST -> GET ile bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_json(req)
+    if token == None:
+        token = find_token_json(req)
     form_data = params_to_json(req)
     response = r.post(url, form_data, headers)
     del headers["Content-Type"]
@@ -127,10 +131,11 @@ def bypass_method_4_json_get(url:str, req: str):
         print("OOps: Something Else", e)
     except Exception as e:
         print("Error! ", e)
-def bypass_method_4_json_put(url: str, req: str):
+def bypass_method_4_json_put(url: str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde POST -> PUT ile bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_json(req)
+    if token == None:
+        token = find_token_json(req)
     form_data = params_to_json(req)
     response = r.post(url, form_data, headers)
 

