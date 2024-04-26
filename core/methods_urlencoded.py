@@ -9,7 +9,7 @@ def bypass_method_1_urlencoded(url: str, req: str, token = None):
         token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
     response = r.post(url, form_data, headers)
-
+    print("Trying method 1..")
     try:
         for key in form_data:
             if key == token:
@@ -39,7 +39,7 @@ def bypass_method_2_urlencoded(url: str, req: str, token = None):
         token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
     response = r.post(url, form_data, headers)
-
+    print("Trying method 2..")
     try:
         for key in form_data:
             if key == token:
@@ -77,6 +77,7 @@ def bypass_method_3_urlencoded(url: str, req: str, token = None):
     headers["X-Client-IP"] = "127.0.0.1"
     headers["X-Host"] = "127.0.0.1"
 
+    print("Trying method 3..")
     try:
         new_response = r.post(url, form_data, headers)
         if response.status_code != 403 and response.status_code != 500 and response.status_code == new_response.status_code:
@@ -103,6 +104,7 @@ def bypass_method_4_urlencoded_get(url: str, req: str, token = None):
     response = r.post(url, form_data, headers)
     del headers["Content-Type"]
 
+    print("Trying method 4.1..")
     try:
         new_response = r.get(url, params=form_data, headers=headers)
         if response.status_code != 403 and response.status_code != 500 and response.status_code != 405 and response.status_code == new_response.status_code:
@@ -128,6 +130,7 @@ def bypass_method_4_urlencoded_put(url: str, req: str, token = None):
     form_data = list_to_dict(req)
     response = r.post(url, form_data, headers)
 
+    print("Trying method 4.2..")
     try:
         new_response = r.put(url, data=form_data, headers=headers)
         if response.status_code != 403 and response.status_code != 500 and response.status_code != 405 and response.status_code == new_response.status_code:
