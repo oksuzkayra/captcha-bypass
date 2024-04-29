@@ -2,6 +2,9 @@ import requests as r
 from utils.parser import parse_req_headers, params_to_json
 from core.findtoken import find_token_json
 
+#TO-DO
+## 400 lü ve 500 lü statüs kodların hepsi test edilecek
+
 def bypass_method_1_json(url: str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde captcha parametresini göndermeyerek bypass etmeye çalışır. (None Method)
     headers = parse_req_headers(req)
@@ -23,7 +26,7 @@ def bypass_method_1_json(url: str, req: str, token = None):
                         break
 
         new_response = r.post(url, form_data, headers)
-        if response.status_code != 403 and response.status_code != 500 and response.status_code == new_response.status_code:
+        if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
             return 1
         else:
             return 0
@@ -58,7 +61,7 @@ def bypass_method_2_json(url:str, req: str, token = None):
                         break
 
         new_response = r.post(url, form_data, headers)
-        if response.status_code != 403 and response.status_code != 500 and response.status_code == new_response.status_code:
+        if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
             return 1
         else:
             return 0
@@ -92,7 +95,7 @@ def bypass_method_3_json(url: str, req: str, token = None):
     print("Trying method 3..")
     try:
         new_response = r.post(url, form_data, headers)
-        if response.status_code != 403 and response.status_code != 500 and response.status_code == new_response.status_code:
+        if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
             return 1
         else:
             return 0
@@ -118,7 +121,7 @@ def bypass_method_4_json_get(url:str, req: str, token = None):
     print("Trying method 4.1..")
     try:
         new_response = r.get(url, params=form_data, headers=headers)
-        if response.status_code != 403 and response.status_code != 500 and response.status_code != 405 and response.status_code == new_response.status_code:
+        if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
             return 1
         else:
             return 0
@@ -143,7 +146,7 @@ def bypass_method_4_json_put(url: str, req: str, token = None):
     print("Trying method 4.2..")
     try:
         new_response = r.put(url, data=form_data, headers=headers)
-        if response.status_code != 403 and response.status_code != 500 and response.status_code != 405 and response.status_code == new_response.status_code:
+        if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
             return 1
         else:
             return 0
