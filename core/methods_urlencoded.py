@@ -1,10 +1,12 @@
 import requests as r
 from utils.parser import parse_req_headers, list_to_dict
 from core.findtoken import find_token_form_urlencoded
+from utils.argparser import get_arguments
 
 def bypass_method_1_urlencoded(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde captcha parametresini göndermeyerek bypass etmeye çalışır.
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
@@ -18,7 +20,11 @@ def bypass_method_1_urlencoded(url: str, req: str, token = None):
 
         new_response = r.post(url, form_data, headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 
@@ -35,6 +41,7 @@ def bypass_method_1_urlencoded(url: str, req: str, token = None):
 def bypass_method_2_urlencoded(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde captcha parametresini boş göndererek bypass etmeye çalışır.
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
@@ -48,7 +55,11 @@ def bypass_method_2_urlencoded(url: str, req: str, token = None):
 
         new_response = r.post(url, form_data, headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
     except r.exceptions.HTTPError as e:
@@ -64,6 +75,7 @@ def bypass_method_2_urlencoded(url: str, req: str, token = None):
 def bypass_method_3_urlencoded(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde Headerlar kullanılarak bypass etmeye çalışır.
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
@@ -81,7 +93,11 @@ def bypass_method_3_urlencoded(url: str, req: str, token = None):
     try:
         new_response = r.post(url, form_data, headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 
@@ -98,6 +114,7 @@ def bypass_method_3_urlencoded(url: str, req: str, token = None):
 def bypass_method_4_urlencoded_get(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde POST -> GET ile bypass etmeye çalışır.
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
@@ -108,7 +125,11 @@ def bypass_method_4_urlencoded_get(url: str, req: str, token = None):
     try:
         new_response = r.get(url, params=form_data, headers=headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 
@@ -125,6 +146,7 @@ def bypass_method_4_urlencoded_get(url: str, req: str, token = None):
 def bypass_method_4_urlencoded_put(url: str, req: str, token = None):
     # Content-Type'ı urlencoded olan isteklerde POST -> PUT ile bypass etmeye çalışır.
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_form_urlencoded(req)
     form_data = list_to_dict(req)
@@ -134,7 +156,11 @@ def bypass_method_4_urlencoded_put(url: str, req: str, token = None):
     try:
         new_response = r.put(url, data=form_data, headers=headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 

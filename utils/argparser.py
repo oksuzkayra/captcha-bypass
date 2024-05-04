@@ -5,6 +5,8 @@ def get_arguments():
     parser.add_argument("-u", "--url", help="URL", required=True)
     parser.add_argument("-r", "--request", help="Raw Request txt format", required=True)
     parser.add_argument("-t", "--token", help="Captcha Token param", required=False)
+    parser.add_argument("-e", "--error", help="Captcha error string", required=False)
+
 
     args = parser.parse_args()
     return args

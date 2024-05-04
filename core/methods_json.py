@@ -1,15 +1,14 @@
 import requests as r
 from utils.parser import parse_req_headers, params_to_json
 from core.findtoken import find_token_json
-
-#TO-DO
-## 400 lü ve 500 lü statüs kodların hepsi test edilecek
+from utils.argparser import get_arguments
 
 def bypass_method_1_json(url: str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde captcha parametresini göndermeyerek bypass etmeye çalışır. (None Method)
     headers = parse_req_headers(req)
     form_data = params_to_json(req)
     response = r.post(url, form_data, headers)
+    args = get_arguments()
     if token == None:
         token = find_token_json(req)
 
@@ -27,7 +26,11 @@ def bypass_method_1_json(url: str, req: str, token = None):
 
         new_response = r.post(url, form_data, headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 
@@ -44,6 +47,7 @@ def bypass_method_1_json(url: str, req: str, token = None):
 def bypass_method_2_json(url:str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde captcha parametresini boş göndererek bypass etmeye çalışır.(NULL method)
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_json(req)
     form_data = params_to_json(req)
@@ -62,7 +66,11 @@ def bypass_method_2_json(url:str, req: str, token = None):
 
         new_response = r.post(url, form_data, headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 
@@ -79,6 +87,7 @@ def bypass_method_2_json(url:str, req: str, token = None):
 def bypass_method_3_json(url: str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde Headerlar kullanılarak bypass etmeye çalışır.
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_json(req)
     form_data = params_to_json(req)
@@ -96,7 +105,11 @@ def bypass_method_3_json(url: str, req: str, token = None):
     try:
         new_response = r.post(url, form_data, headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 
@@ -113,6 +126,7 @@ def bypass_method_3_json(url: str, req: str, token = None):
 def bypass_method_4_json_get(url:str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde POST -> GET ile bypass etmeye çalışır.
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_json(req)
     form_data = params_to_json(req)
@@ -122,7 +136,11 @@ def bypass_method_4_json_get(url:str, req: str, token = None):
     try:
         new_response = r.get(url, params=form_data, headers=headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 
@@ -139,6 +157,7 @@ def bypass_method_4_json_get(url:str, req: str, token = None):
 def bypass_method_4_json_put(url: str, req: str, token = None):
     # Content-Type'ı JSON olan isteklerde POST -> PUT ile bypass etmeye çalışır.
     headers = parse_req_headers(req)
+    args = get_arguments()
     if token == None:
         token = find_token_json(req)
     form_data = params_to_json(req)
@@ -147,7 +166,11 @@ def bypass_method_4_json_put(url: str, req: str, token = None):
     try:
         new_response = r.put(url, data=form_data, headers=headers)
         if "40" not in str(response.status_code) and "50" not in str(response.status_code) and response.status_code == new_response.status_code:
-            return 1
+            if args.error:
+                if args.error not in new_response.text:
+                    return 1
+                else:
+                    return 0
         else:
             return 0
 
