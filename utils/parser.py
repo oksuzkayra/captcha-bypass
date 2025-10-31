@@ -14,14 +14,29 @@ def parse_req_headers(req: str):
     if "Content-Length" in final_dict.keys():
         del final_dict["Content-Length"]
     return final_dict
-def req_to_list(req: str):
+def req_body_to_list(req: str):
     # Request body'i liste olarak döndürür.
     params_all = req[req.find("\n\n")+2:]
     params_list = params_all.split("&")
     return params_list
+def req_body_to_list_for_get(req: str):
+    # Parametreleri liste olarak döndürür.
+    params_all = req[req.find("GET")+4:req.find("HTTP")-1]
+    params_list = params_all.split("?")
+    if len(params_list) > 1:
+        params_list = params_list[1].split("&")
+    else:
+        params_list = []
+    return params_list
+def req_body_to_list_chooser(req: str):
+    # Request body'i liste olarak döndürür.
+    if "GET" in req[0:req.find("\n")]:
+        return req_body_to_list_for_get(req)
+    else:
+        return req_body_to_list(req)
 def list_to_dict(req: str):
     # Listeyi dict'e çevirerek döndürür.
-    for i in req_to_list(req):
+    for i in req_body_to_list_chooser(req):
         locations=i.find("=")
         params_dict[i[:locations]] = i[locations+1:]
     return params_dict

@@ -35,7 +35,7 @@ def find_token_json(req: str):
                     if re.search(captcha_param, nested_key, re.IGNORECASE):
                         return nested_key
 
-def find_token_form_urlencoded(req: str):
+def find_token(req: str):
     # Parametreler arasından içerisinde 'captcha' kelimesi geçen token'i döndürür.
     for key in list_to_dict(req).keys():
         for captcha_param in captcha_parameters:

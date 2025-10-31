@@ -16,8 +16,8 @@ def result():
     if result_list[2] == 1:
         print("Add Header method is success.")
     if result_list[3] == 1:
-        print("POST->GET method is potentially success.")
+        print("POST->GET/GET->POST method is potentially success.")
     if result_list[4] == 1:
-        print("POST->PUT method is potentially success.")
+        print("POST->PUT/GET->PUT method is potentially success.")
     if 1 not in result_list:
         print("Bypass isn't success")

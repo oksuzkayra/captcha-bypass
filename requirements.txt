@@ -4,8 +4,6 @@ click==8.1.7
 exceptiongroup==1.2.0
 h11==0.14.0
 idna==3.6
-pydantic==2.6.0
-pydantic_core==2.16.1
 requests==2.31.0
 soupsieve==2.5
 starlette==0.35.1
